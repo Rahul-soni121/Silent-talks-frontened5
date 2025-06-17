@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -20,7 +19,8 @@ const ChatPage = ({ userDetails }) => {
       });
 
       setMessages([...newMessages, { from: 'them', text: res.data.reply }]);
-    } catch {
+    } catch (err) {
+      console.error(err);
       setMessages([...newMessages, { from: 'them', text: 'Kuch galat ho gaya. Dobara try karo.' }]);
     }
   };
@@ -29,13 +29,18 @@ const ChatPage = ({ userDetails }) => {
     <div className="max-w-xl mx-auto bg-white p-4 rounded-xl shadow-md">
       <div className="h-96 overflow-y-auto space-y-2 mb-4 border p-2 rounded">
         {messages.map((msg, i) => (
-          <div key={i} className={\`p-2 rounded-lg \${msg.from === 'you' ? 'bg-pink-100 text-right' : 'bg-gray-100 text-left'}\`}>
+          <div key={i} className={`p-2 rounded-lg ${msg.from === 'you' ? 'bg-pink-100 text-right' : 'bg-gray-100 text-left'}`}>
             {msg.text}
           </div>
         ))}
       </div>
       <div className="flex">
-        <input value={input} onChange={(e) => setInput(e.target.value)} className="flex-grow border p-2 rounded-l" placeholder="Apna message likhiye..." />
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-grow border p-2 rounded-l"
+          placeholder="Apna message likhiye..."
+        />
         <button onClick={sendMessage} className="bg-pink-600 text-white px-4 rounded-r">Send</button>
       </div>
     </div>
